@@ -32,12 +32,10 @@ public class MyController {
 
     @PostMapping(path = "/cuturl")
     public ModelAndView cutUrl(@RequestBody String longurl) {
-        appService.cutUrl(longurl);
+        String shorturl = appService.cutUrl(longurl);
         // return "result";
         ModelAndView modelAndView = new ModelAndView("result");
-
-        modelAndView.
-
+        modelAndView.addObject("surl",  "shorturl");
         return modelAndView;
 
         //return new ResponseEntity<> (shortUrl,HttpStatus.OK);
