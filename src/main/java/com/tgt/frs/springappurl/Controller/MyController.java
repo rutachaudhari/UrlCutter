@@ -13,6 +13,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.io.UnsupportedEncodingException;
+
 
 @Controller
 @Slf4j
@@ -32,11 +34,17 @@ public class MyController {
     }
 
     @PostMapping(path = "/cuturl")
-    public ModelAndView cutUrl(@RequestBody String longurl) {
+    public ModelAndView cutUrl(@RequestBody String longURL) {
+        String longurl = null;
+        try {
+            longurl = java.net.URLDecoder.decode(longURL, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         String shorturl = appService.cutUrl(longurl);
         // return "result";
         ModelAndView modelAndView = new ModelAndView("result");
-        modelAndView.addObject("surl",  shorturl);
+        modelAndView.addObject("surl", shorturl);
         return modelAndView;
 
         //return new ResponseEntity<> (shortUrl,HttpStatus.OK);
@@ -48,8 +56,9 @@ public class MyController {
 
             UrlClass urlClass = appService.getUrlbySurl(shortUrl);
             String str = urlClass.getLongUrl();
+
             RedirectView redirectView = new RedirectView();
-            redirectView.setUrl(str);
+            redirectView.setUrl(str.substring(8));
             return redirectView;
             //return new ResponseEntity<>(urlClass, HttpStatus.OK);
 
