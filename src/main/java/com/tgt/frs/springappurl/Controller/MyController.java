@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 
 @Controller
@@ -43,14 +44,14 @@ public class MyController {
 
 
     @RequestMapping(value = "{shorturl}", method = RequestMethod.GET)
-    public ResponseEntity<UrlClass> getUrl(@PathVariable("shorturl") String shortUrl) {
-        try {
+    public RedirectView getUrl(@PathVariable("shorturl") String shortUrl) {
+
             UrlClass urlClass = appService.getUrlbySurl(shortUrl);
-            //return
-            return new ResponseEntity<>(urlClass, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
-        }
+            String str = urlClass.getLongUrl();
+            RedirectView redirectView = new RedirectView();
+            redirectView.setUrl(str);
+            return redirectView;
+            //return new ResponseEntity<>(urlClass, HttpStatus.OK);
 
     }
 
