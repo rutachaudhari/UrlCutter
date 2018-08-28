@@ -35,7 +35,7 @@ public class MyController {
         String shorturl = appService.cutUrl(longurl);
         // return "result";
         ModelAndView modelAndView = new ModelAndView("result");
-        modelAndView.addObject("surl",  "shorturl");
+        modelAndView.addObject("surl",  shorturl);
         return modelAndView;
 
         //return new ResponseEntity<> (shortUrl,HttpStatus.OK);
