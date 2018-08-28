@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
+import org.springframework.web.servlet.ModelAndView;
 
 
 @Controller
@@ -25,32 +26,32 @@ public class MyController {
 
     @GetMapping("/")
     public String getForm(Model model) {
-       // model.addAttribute("urlClass", new UrlClass());
+        // model.addAttribute("urlClass", new UrlClass());
         return "login";
     }
-//
-//    @PostMapping("/urlClass1")
-//    public String gettingSubmit(@ModelAttribute UrlClass urlClass) {
-//        return "result";
-//    }
 
-   // @PostMapping(path= "/cuturl", consumes = "text/plain")
-   @PostMapping(path= "/cuturl")
-    public String cutUrl(@RequestBody String longurl){
-        String shortUrl = appService.cutUrl(longurl);
-        return "result";
-        //System.out.println("request submitted");
+    @PostMapping(path = "/cuturl")
+    public ModelAndView cutUrl(@RequestBody String longurl) {
+        appService.cutUrl(longurl);
+        // return "result";
+        ModelAndView modelAndView = new ModelAndView("result");
+
+        modelAndView.
+
+        return modelAndView;
+
         //return new ResponseEntity<> (shortUrl,HttpStatus.OK);
     }
 
-    @RequestMapping(value= "{shorturl}",method = RequestMethod.GET)
-    public ResponseEntity<UrlClass> getUrl(@PathVariable("shorturl") String shortUrl){
-        try{
+
+    @RequestMapping(value = "{shorturl}", method = RequestMethod.GET)
+    public ResponseEntity<UrlClass> getUrl(@PathVariable("shorturl") String shortUrl) {
+        try {
             UrlClass urlClass = appService.getUrlbySurl(shortUrl);
             //return
-            return new ResponseEntity<> (urlClass,HttpStatus.OK);
-        }catch (Exception e){
-            return new ResponseEntity (HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(urlClass, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
 
     }

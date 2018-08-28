@@ -22,11 +22,11 @@ public class AppService {
 
 
     public String cutUrl(String longurl) {
-        String shorturl = longurl.substring(16,19);
+        String shorturl = longurl.substring(25,28);
         urlClass.setLongUrl(longurl);
         urlClass.setShortUrl(shorturl);
         urlRepository.save(urlClass);
-        return longurl.substring(17,20);
+        return longurl.substring(25,28);
 
     }
 
